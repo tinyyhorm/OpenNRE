@@ -9,7 +9,7 @@ import numpy as np
 import logging
 
 root_url = "https://thunlp.oss-cn-qingdao.aliyuncs.com/"
-default_root_path = os.path.join(os.getenv('HOME'), '.opennre')
+default_root_path = r'C:\Users\Guohao\OpenNRE'
 
 def check_root(root_path=default_root_path):
     if not os.path.exists(root_path):
@@ -92,10 +92,22 @@ def download_bert_base_uncased(root_path=default_root_path):
         os.system('wget -P ' + os.path.join(root_path, 'pretrain/bert-base-uncased') + ' ' + root_url + 'opennre/pretrain/bert-base-uncased/pytorch_model.bin')
         os.system('wget -P ' + os.path.join(root_path, 'pretrain/bert-base-uncased') + ' ' + root_url + 'opennre/pretrain/bert-base-uncased/vocab.txt')
 
+import urllib.request
+
 def download_pretrain(model_name, root_path=default_root_path):
-    ckpt = os.path.join(root_path, 'pretrain/nre/' + model_name + '.pth.tar')
+    ckpt_dir = os.path.join(root_path, 'pretrain/nre')
+    ckpt = os.path.join(ckpt_dir, model_name + '.pth.tar')
+    url = root_url + f'opennre/pretrain/nre/{model_name}.pth.tar'
+    if not os.path.exists(ckpt_dir):
+        os.makedirs(ckpt_dir, exist_ok=True)
     if not os.path.exists(ckpt):
-        os.system('wget -P ' + os.path.join(root_path, 'pretrain/nre')  + ' ' + root_url + 'opennre/pretrain/nre/' + model_name + '.pth.tar')
+        try:
+            print(f"Downloading {url} to {ckpt} ...")
+            urllib.request.urlretrieve(url, ckpt)
+            print("Download finished.")
+        except Exception as e:
+            print(f"Failed to download {url}: {e}")
+            raise
 
 def download(name, root_path=default_root_path):
     if not os.path.exists(os.path.join(root_path, 'benchmark')):
