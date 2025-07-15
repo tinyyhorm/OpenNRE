@@ -132,6 +132,8 @@ def download(name, root_path=default_root_path):
         download_glove(root_path=root_path)
     elif name == 'bert_base_uncased':
         download_bert_base_uncased(root_path=root_path)
+    elif name == 'matre':
+        pass
     else:
         raise Exception('Cannot find corresponding data.')
 

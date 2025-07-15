@@ -32,7 +32,7 @@ parser.add_argument('--mask_entity', action='store_true',
 # Data
 parser.add_argument('--metric', default='micro_f1', choices=['micro_f1', 'acc'],
         help='Metric for picking up best checkpoint')
-parser.add_argument('--dataset', default='none', choices=['none', 'semeval', 'wiki80', 'tacred'], 
+parser.add_argument('--dataset', default='none', choices=['none', 'semeval', 'wiki80', 'tacred', 'matre'], 
         help='Dataset. If not none, the following args can be ignored')
 parser.add_argument('--train_file', default='', type=str,
         help='Training data file')
@@ -95,6 +95,12 @@ for arg in vars(args):
 rel2id = json.load(open(args.rel2id_file))
 
 # Define the sentence encoder
+pretrain_path_ref = {
+        "scibert" : "C:\\Users\\Guohao\\workspace_py\\pre-trained_models\\scibert_scivocab_uncased\\",
+        "matscibert" : "C:\\Users\\Guohao\\workspace_py\\pre-trained_models\\matscibert\\"
+}
+args.pretrain_path = pretrain_path_ref[args.pretrain_path]
+
 if args.pooler == 'entity':
     sentence_encoder = opennre.encoder.BERTEntityEncoder(
         max_length=args.max_length, 

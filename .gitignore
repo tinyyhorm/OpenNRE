@@ -128,5 +128,5 @@ benchmark
 
 # package
 opennre-egg.info
-
+*.code-workspace
 *.sh

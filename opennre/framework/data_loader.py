@@ -22,7 +22,7 @@ class SentenceREDataset(data.Dataset):
         self.kwargs = kwargs
 
         # Load the file
-        f = open(path)
+        f = open(path, encoding='utf-8')
         self.data = []
         for line in f.readlines():
             line = line.rstrip()
@@ -103,7 +103,7 @@ class SentenceREDataset(data.Dataset):
         return result
     
 def SentenceRELoader(path, rel2id, tokenizer, batch_size, 
-        shuffle, num_workers=8, collate_fn=SentenceREDataset.collate_fn, **kwargs):
+        shuffle, num_workers=0, collate_fn=SentenceREDataset.collate_fn, **kwargs):
     dataset = SentenceREDataset(path = path, rel2id = rel2id, tokenizer = tokenizer, kwargs=kwargs)
     data_loader = data.DataLoader(dataset=dataset,
             batch_size=batch_size,
